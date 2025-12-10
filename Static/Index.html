@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sofi AI 🤖 - Tu Asistente Inteligente</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER CON LOGO -->
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-robot"></i>
+                    <div class="pulse-dot"></div>
+                </div>
+                <div class="logo-text">
+                    <h1>Sofi AI</h1>
+                    <p class="tagline">Asistente inteligente · Razonamiento profundo · Respuestas claras</p>
+                </div>
+            </div>
+            <div class="status-indicator" id="statusIndicator">
+                <div class="status-dot"></div>
+                <span>Conectado</span>
+            </div>
+        </header>
+
+        <!-- CONTENEDOR PRINCIPAL -->
+        <main class="main-content">
+            <!-- PANEL DE CHAT -->
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2><i class="fas fa-comments"></i> Conversación</h2>
+                    <div class="model-selector">
+                        <span class="model-badge" id="currentModel">
+                            <i class="fas fa-brain"></i> Seleccionando modelo...
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- MENSAJES -->
+                <div class="messages-container" id="messagesContainer">
+                    <!-- Mensaje de bienvenida -->
+                    <div class="message ai-message">
+                        <div class="avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <strong>Sofi AI</strong>
+                                <span class="message-time">Ahora</span>
+                            </div>
+                            <div class="message-text">
+                                ¡Hola! 👋 Soy Sofi AI, tu asistente inteligente. 
+                                Estoy aquí para ayudarte con lo que necesites: 
+                                explicaciones detalladas, código, razonamiento complejo, 
+                                o simplemente conversar. 
+                                <br><br>
+                                <em>¿En qué puedo asistirte hoy?</em>
+                            </div>
+                            <div class="message-footer">
+                                <span class="typing-indicator" id="typingIndicator">
+                                    <i class="fas fa-circle"></i>
+                                    <i class="fas fa-circle"></i>
+                                    <i class="fas fa-circle"></i>
+                                    Sofi está escribiendo...
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INPUT DE TEXTO -->
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="messageInput" 
+                            placeholder="Escribe tu mensaje aquí... Ejemplo: 'Explícame cómo funciona una API REST'"
+                            rows="1"
+                        ></textarea>
+                        <div class="input-actions">
+                            <button class="action-btn" title="Enviar mensaje" id="sendButton">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                            <button class="action-btn" title="Limpiar chat" id="clearButton">
+                                <i class="fas fa-broom"></i>
+                            </button>
+                            <button class="action-btn" title="Características especiales" id="featuresButton">
+                                <i class="fas fa-magic"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-hints">
+                        <span class="hint">
+                            <i class="fas fa-code"></i> Para código: menciona "código", "programa", "python"
+                        </span>
+                        <span class="hint">
+                            <i class="fas fa-lightbulb"></i> Para explicaciones: pregunta "cómo funciona", "por qué"
+                        </span>
+                        <span class="hint">
+                            <i class="fas fa-image"></i> Para imágenes: di "imagen", "genera", "crea"
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL LATERAL - INFORMACIÓN -->
+            <div class="sidebar">
+                <!-- ESTADO DEL SISTEMA -->
+                <div class="sidebar-card">
+                    <h3><i class="fas fa-server"></i> Estado del Sistema</h3>
+                    <div class="status-list">
+                        <div class="status-item">
+                            <span class="status-label">Backend:</span>
+                            <span class="status-value active" id="backendStatus">✅ Conectado</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">API Keys:</span>
+                            <span class="status-value" id="keysStatus">🔄 Verificando...</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Modelos disponibles:</span>
+                            <span class="status-value" id="modelsCount">5</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Última respuesta:</span>
+                            <span class="status-value" id="lastResponseTime">--:--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODELOS DISPONIBLES -->
+                <div class="sidebar-card">
+                    <h3><i class="fas fa-microchip"></i> Modelos Inteligentes</h3>
+                    <div class="models-list" id="modelsList">
+                        <!-- Los modelos se cargarán aquí -->
+                    </div>
+                </div>
+
+                <!-- EJEMPLOS RÁPIDOS -->
+                <div class="sidebar-card">
+                    <h3><i class="fas fa-bolt"></i> Ejemplos Rápidos</h3>
+                    <div class="quick-examples">
+                        <button class="example-btn" data-example="Explícame cómo funciona una red neuronal">
+                            <i class="fas fa-brain"></i> Red neuronal
+                        </button>
+                        <button class="example-btn" data-example="Muéstrame un ejemplo de función en Python que calcule el factorial">
+                            <i class="fab fa-python"></i> Factorial Python
+                        </button>
+                        <button class="example-btn" data-example="¿Cuál es la diferencia entre HTTP y HTTPS?">
+                            <i class="fas fa-shield-alt"></i> HTTP vs HTTPS
+                        </button>
+                        <button class="example-btn" data-example="Genera una descripción para una imagen de un bosque encantado">
+                            <i class="fas fa-image"></i> Bosque encantado
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ESTADÍSTICAS -->
+                <div class="sidebar-card">
+                    <h3><i class="fas fa-chart-line"></i> Estadísticas</h3>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Mensajes hoy:</span>
+                            <span class="stat-value" id="messagesToday">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Tokens usados:</span>
+                            <span class="stat-value" id="tokensUsed">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Tiempo respuesta:</span>
+                            <span class="stat-value" id="avgResponseTime">0s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-cogs"></i> Características</h4>
+                    <p>Razonamiento paso a paso · Sintaxis de código · Selección inteligente de modelos · Respuestas claras</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-bolt"></i> Conectado vía</h4>
+                    <p>OpenRouter API · Flask Backend · PythonAnywhere</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-heart"></i> Hecho con</h4>
+                    <p>💙 por Sofi AI · Actualizado hoy</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>🤖 Sofi AI v3.0 · Respuestas detalladas y claras como siempre</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
